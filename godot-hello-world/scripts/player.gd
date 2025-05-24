@@ -7,19 +7,39 @@ extends CharacterBody2D
 @onready var die_sfx: AudioStreamPlayer2D = $Die
 
 const SPEED = 130.0
-const JUMP_VELOCITY = -300.0
+const JUMP_VELOCITY = -250.0
+const DOUBLE_JUMP_VELOCITY = -150.0
 var health = 3.0
 var alive = true
+var double_jumped = false
 
+func get_jump_velocity():
+	if !self.alive:
+		return 0.0
+	if is_on_floor():
+		return JUMP_VELOCITY
+	
+	if !is_on_floor():
+		if self.double_jumped:
+			return 0.0
+		else:
+			self.double_jumped = true
+			return DOUBLE_JUMP_VELOCITY
+	return 0.0
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	else:
+		double_jumped = false
+	
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor() and self.alive:
-		self.jump_sfx.play()
-		velocity.y = JUMP_VELOCITY
+	if Input.is_action_just_pressed("jump"):
+		var jvelocity = get_jump_velocity()
+		if jvelocity != 0.0:
+			self.jump_sfx.play()
+			velocity.y = jvelocity
 	
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
