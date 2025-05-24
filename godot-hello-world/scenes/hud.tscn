@@ -37,6 +37,7 @@ theme_override_font_sizes/font_size = 16
 text = "x0"
 
 [node name="Hearts" type="TextureRect" parent="."]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 64.0
 offset_right = 68.0

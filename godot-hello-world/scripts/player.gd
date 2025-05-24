@@ -9,9 +9,13 @@ extends CharacterBody2D
 const SPEED = 130.0
 const JUMP_VELOCITY = -250.0
 const DOUBLE_JUMP_VELOCITY = -150.0
-var health = 3.0
+const I_FRAMES = 24
+@onready var original_modulate = sprite.modulate
+
+var health = 3
 var alive = true
 var double_jumped = false
+var iframes: int = 0
 
 func get_jump_velocity():
 	if !self.alive:
@@ -28,6 +32,13 @@ func get_jump_velocity():
 	return 0.0
 
 func _physics_process(delta: float) -> void:
+	self.iframes = max(0, self.iframes-1)
+	if self.iframes <= 0:
+		print(self.iframes)
+		sprite.modulate = self.original_modulate
+	else:
+		sprite.modulate = Color("red", float(self.iframes)/float(self.I_FRAMES)*2)
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -91,13 +102,15 @@ func _physics_process(delta: float) -> void:
 #func _on_animation_finished():
 	#print("Animation finished playing once.")
 
-func take_damage(damage):
-	if !self.alive:
+func take_damage(damage: int):
+	
+	if !self.alive or self.iframes > 0:
+		# Don't take damage when dead or in iFrames
 		return
 	
 	self.hurt_sfx.play()
 	self.health -= damage
-	hud_health_label.text = "x" + str(int(self.health))
+	hud_health_label.text = "x" + str(self.health)
 	print("Health: ", self.health)
 	#sprite.animation = "damaged"
 	
@@ -105,3 +118,5 @@ func take_damage(damage):
 		self.die_sfx.play()
 		self.alive = false
 		sprite.animation = "die"
+	self.iframes = self.I_FRAMES
+	
