@@ -13,7 +13,7 @@ func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
+	if Input.is_action_just_pressed("jump") and is_on_floor() and self.alive:
 		velocity.y = JUMP_VELOCITY
 	
 	# Get the input direction and handle the movement/deceleration.
@@ -34,20 +34,46 @@ func _physics_process(delta: float) -> void:
 		sprite.flip_h = direction != 1
 	
 	# Manage sprite animation
-	if is_on_floor():
-		if direction == 0:
-			sprite.animation = "idle"
+	if self.alive:
+		if is_on_floor():
+			if direction == 0:
+				sprite.animation = "idle"
+			else:
+				sprite.animation = "run" # or sprite.animation.play("run")?
 		else:
-			sprite.animation = "run" # or sprite.animation.play("run")?
+			sprite.animation = "jump"
 	else:
-		sprite.animation = "jump"
-
+		sprite.animation = "die"
+	#if is_on_floor():
+		#if direction == 0:
+			#sprite.animation = "idle"
+		#else:
+			#sprite.animation = "run" # or sprite.animation.play("run")?
+	#else:
+		#sprite.animation = "jump"
+	#print(sprite.frame=="die")
+	if sprite.animation == "die" && sprite.frame == 5:
+		get_tree().reload_current_scene()
 
 	move_and_slide()
 
+
+#func _ready():
+	#$AnimatedSprite2D.play("your_animation_name")
+	#$AnimatedSprite2D.loop = false
+	#$AnimatedSprite2D.connect("animation_finished", self, "_on_animation_finished")
+#
+#func _on_animation_finished():
+	#print("Animation finished playing once.")
+
 func take_damage(damage):
+	if !self.alive:
+		return
+
 	self.health -= damage
+	print("Health: ", self.health)
+	sprite.animation = "damaged"
+	
 	if self.health <= 0.0:
 		self.alive = false
 		sprite.animation = "die"
-	

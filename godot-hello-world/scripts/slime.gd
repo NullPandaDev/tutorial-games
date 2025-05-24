@@ -2,9 +2,9 @@ extends Node2D
 
 var SPEED = 30
 var direction = 1
-@onready var collision_shape_2d: CollisionShape2D = $Killzone/CollisionShape2D
-@onready var left: RayCast2D = $Killzone/Left
-@onready var right: RayCast2D = $Killzone/Right
+@onready var collision_shape_2d: CollisionShape2D = $DamageZone/CollisionShape2D
+@onready var left: RayCast2D = $DamageZone/Left
+@onready var right: RayCast2D = $DamageZone/Right
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 
