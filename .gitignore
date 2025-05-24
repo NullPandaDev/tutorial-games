@@ -179,43 +179,43 @@ cython_debug/
 #----------------------------------------------
 # Godot 4+ specific ignores
 #----------------------------------------------
-# Godot project folders and generated data
-# .godot/
-# .import/
-# .mono/
-# data_*/
-# .nomedia
+Godot project folders and generated data
+.godot/
+.import/
+.mono/
+data_*/
+.nomedia
 
-# # Godot project configuration
-# export.cfg
-# export_credentials.cfg
+# Godot project configuration
+export.cfg
+export_credentials.cfg
 
-# # Godot-generated files
-# *.import
-# *.gd.uid
-# *.translation
-# *.converted.res
+# Godot-generated files
+*.import
+*.gd.uid
+*.translation
+*.converted.res
 
-# # Godot temp/backup files
-# *.tmp
-# *.bak
-# *.tscn~
-# *.tres~
-# *.swp
+# Godot temp/backup files
+*.tmp
+*.bak
+*.tscn~
+*.tres~
+*.swp
 
-# # Build and export artifacts
-# export/
-# build/
-# *.exe
-# *.pck
-# *.apk
-# *.zip
+# Build and export artifacts
+export/
+build/
+*.exe
+*.pck
+*.apk
+*.zip
 
-# # Crash logs
-# crash_dump*
-# mono_crash.*.json
+# Crash logs
+crash_dump*
+mono_crash.*.json
 
-# # OS-specific files
-# .DS_Store
-# Thumbs.db
-# desktop.ini
+# OS-specific files
+.DS_Store
+Thumbs.db
+desktop.ini

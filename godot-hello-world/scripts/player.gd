@@ -1,6 +1,10 @@
 extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var hud_health_label = get_tree().get_first_node_in_group("HUD").get_node("Hearts/Label") as Label
+@onready var hurt_sfx: AudioStreamPlayer2D = $Hurt
+@onready var jump_sfx: AudioStreamPlayer2D = $Jump
+@onready var die_sfx: AudioStreamPlayer2D = $Die
 
 const SPEED = 130.0
 const JUMP_VELOCITY = -300.0
@@ -14,6 +18,7 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor() and self.alive:
+		self.jump_sfx.play()
 		velocity.y = JUMP_VELOCITY
 	
 	# Get the input direction and handle the movement/deceleration.
@@ -69,11 +74,14 @@ func _physics_process(delta: float) -> void:
 func take_damage(damage):
 	if !self.alive:
 		return
-
+	
+	self.hurt_sfx.play()
 	self.health -= damage
+	hud_health_label.text = "x" + str(int(self.health))
 	print("Health: ", self.health)
-	sprite.animation = "damaged"
+	#sprite.animation = "damaged"
 	
 	if self.health <= 0.0:
+		self.die_sfx.play()
 		self.alive = false
 		sprite.animation = "die"
