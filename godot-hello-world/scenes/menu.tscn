@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://b5y4nyfl8qtol"]
+
+[ext_resource type="Script" uid="uid://cxebm2dbwwdas" path="res://scenes/menu.gd" id="1_vjb58"]
+[ext_resource type="FontFile" uid="uid://1u475j27xfrd" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="1_yqeox"]
+
+[node name="Menu" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_vjb58")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 544.0
+offset_top = 296.0
+offset_right = 796.0
+offset_bottom = 336.0
+theme_override_fonts/font = ExtResource("1_yqeox")
+theme_override_font_sizes/font_size = 32
+text = "Continue"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 592.0
+offset_top = 344.0
+offset_right = 722.0
+offset_bottom = 384.0
+theme_override_fonts/font = ExtResource("1_yqeox")
+theme_override_font_sizes/font_size = 32
+text = "Exit"
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
+[connection signal="button_down" from="Button2" to="." method="_on_button_2_button_down"]

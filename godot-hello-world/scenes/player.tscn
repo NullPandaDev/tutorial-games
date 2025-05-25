@@ -1,10 +1,11 @@
-[gd_scene load_steps=34 format=3 uid="uid://bdl1xslk0xp8f"]
+[gd_scene load_steps=35 format=3 uid="uid://bdl1xslk0xp8f"]
 
 [ext_resource type="Texture2D" uid="uid://cyw5d8fl8bfsm" path="res://assets/sprites/knight.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://c3fr5gbpiudib" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="AudioStream" uid="uid://bkxfmbtldgiiu" path="res://assets/sounds/jump.wav" id="3_qhqgy"]
 [ext_resource type="AudioStream" uid="uid://dwdym0123ppws" path="res://assets/sounds/hurt.wav" id="4_qlg0r"]
 [ext_resource type="AudioStream" uid="uid://dq2oux18nfb8e" path="res://assets/sounds/explosion.wav" id="5_tuyoq"]
+[ext_resource type="PackedScene" uid="uid://bhhcm11dsuwwr" path="res://scenes/sword.tscn" id="6_tuyoq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_31cv2"]
 atlas = ExtResource("1_3vyb7")
@@ -234,9 +235,10 @@ collision_layer = 2
 script = ExtResource("1_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_tuyoq")
-animation = &"damaged"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -251,3 +253,7 @@ stream = ExtResource("4_qlg0r")
 
 [node name="Die" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_tuyoq")
+
+[node name="Sword" parent="." instance=ExtResource("6_tuyoq")]
+position = Vector2(1.19209e-07, -4)
+rotation = 1.57564

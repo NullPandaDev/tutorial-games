@@ -52,16 +52,22 @@ sprite_frames = SubResource("SpriteFrames_rrqju")
 autoplay = "default"
 frame_progress = 0.113239
 
-[node name="DamageZone" parent="." instance=ExtResource("3_wcugo")]
+[node name="SlimeDZ" parent="." instance=ExtResource("3_wcugo")]
+collision_layer = 7
+collision_mask = 6
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DamageZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlimeDZ"]
 position = Vector2(21, 9)
 shape = SubResource("RectangleShape2D_wcugo")
 
-[node name="Left" type="RayCast2D" parent="DamageZone"]
+[node name="Left" type="RayCast2D" parent="SlimeDZ"]
 position = Vector2(21, 7)
 target_position = Vector2(-10, 0)
 
-[node name="Right" type="RayCast2D" parent="DamageZone"]
+[node name="Right" type="RayCast2D" parent="SlimeDZ"]
 position = Vector2(21, 7)
 target_position = Vector2(10, 0)
+
+[connection signal="area_shape_entered" from="SlimeDZ" to="SlimeDZ" method="_on_area_shape_entered"]
+[connection signal="body_entered" from="SlimeDZ" to="." method="_on_damage_zone_body_entered"]
+[connection signal="body_shape_entered" from="SlimeDZ" to="SlimeDZ" method="_on_body_shape_entered"]

@@ -16,6 +16,7 @@ var health = 3
 var alive = true
 var double_jumped = false
 var iframes: int = 0
+var current_flip_h = false
 
 func get_jump_velocity():
 	if !self.alive:
@@ -34,7 +35,6 @@ func get_jump_velocity():
 func _physics_process(delta: float) -> void:
 	self.iframes = max(0, self.iframes-1)
 	if self.iframes <= 0:
-		print(self.iframes)
 		sprite.modulate = self.original_modulate
 	else:
 		sprite.modulate = Color("red", float(self.iframes)/float(self.I_FRAMES)*2)
@@ -68,6 +68,7 @@ func _physics_process(delta: float) -> void:
 	# Manage direction
 	if direction != 0:
 		sprite.flip_h = direction != 1
+		self.current_flip_h = sprite.flip_h
 	
 	# Manage sprite animation
 	if self.alive:
@@ -111,7 +112,6 @@ func take_damage(damage: int):
 	self.hurt_sfx.play()
 	self.health -= damage
 	hud_health_label.text = "x" + str(self.health)
-	print("Health: ", self.health)
 	#sprite.animation = "damaged"
 	
 	if self.health <= 0.0:

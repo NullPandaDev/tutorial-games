@@ -2,10 +2,12 @@ extends Node2D
 
 var SPEED = 30
 var direction = 1
-@onready var collision_shape_2d: CollisionShape2D = $DamageZone/CollisionShape2D
-@onready var left: RayCast2D = $DamageZone/Left
-@onready var right: RayCast2D = $DamageZone/Right
+@onready var collision_shape_2d: CollisionShape2D = $SlimeDZ/CollisionShape2D
+@onready var left: RayCast2D = $SlimeDZ/Left#$SlimeDZ/Left
+@onready var right: RayCast2D = $SlimeDZ/Right
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+var hp = 1
 
 
 # Called when the node enters the scene tree for the first time.
@@ -15,6 +17,13 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	# FIXME: Big time fixme. Why is this 
+	if !left:
+		return
+		#print(left.is_colliding(), self)
+	#else:
+		#print("LEFT IS MISSING!", self)
+	#return
 	if left.is_colliding():
 		sprite.flip_h = false
 		direction = 1
@@ -22,3 +31,9 @@ func _process(delta: float) -> void:
 		sprite.flip_h = true
 		direction = -1
 	position.x += delta * SPEED * direction
+
+func take_damage(damage: int):
+	self.hp -= damage
+	print("HP: ", self.hp)
+	if self.hp <= 0:
+		self.queue_free()

@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://bhhcm11dsuwwr"]
+
+[ext_resource type="Script" uid="uid://b6a8s4anf7kdo" path="res://scripts/sword.gd" id="1_n355p"]
+[ext_resource type="Texture2D" uid="uid://di0gj6tmwwebb" path="res://assets/sprites/roguelikeChar_transparent.png" id="1_ycbs3"]
+[ext_resource type="AudioStream" uid="uid://ptqd76syctx6" path="res://assets/sounds/tap.wav" id="3_s4ec8"]
+[ext_resource type="AudioStream" uid="uid://dwdym0123ppws" path="res://assets/sounds/hurt.wav" id="4_k5whp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n355p"]
+atlas = ExtResource("1_ycbs3")
+region = Rect2(776, 120, 19, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4ec8"]
+atlas = ExtResource("1_ycbs3")
+region = Rect2(776, 152, 19, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycbs3"]
+atlas = ExtResource("1_ycbs3")
+region = Rect2(776, 120, 19, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k5whp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n355p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4ec8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n355p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4ec8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4ec8")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 40.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ycbs3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 0.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n355p"]
+radius = 2.0
+height = 10.0
+
+[node name="Sword" type="Node2D"]
+script = ExtResource("1_n355p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_k5whp")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -1)
+shape = SubResource("CapsuleShape2D_n355p")
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="AttackSFX" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("3_s4ec8")
+
+[node name="HurtSFX" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("4_k5whp")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
