@@ -21,14 +21,18 @@ var paused = false
 var score = 0
 
 func load_level2():
-	if $Level:
-		$Level.queue_free()
-
+	var camera = %Camera as Camera2D
+	camera.position_smoothing_enabled = false
+	if %Level:
+		print("free level")
+		%Level.queue_free()
 	await get_tree().process_frame  # Wait a frame to fully remove the old level
 
-	var new_level = load("res://scenes/Level2.tscn").instantiate()
-	add_child(new_level)
+	level = load("res://scenes/Level2.tscn").instantiate()
+	add_child(level)
 	player.position = player_start
+	await get_tree().process_frame  # Wait a frame to fully remove the old level
+	camera.position_smoothing_enabled = true
 	connect_to_coins()
 
 func _ready():

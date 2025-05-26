@@ -23,6 +23,9 @@ func get_jump_velocity():
 		return 0.0
 	if is_on_floor():
 		return JUMP_VELOCITY
+	if is_on_wall():
+		self.double_jumped = false
+		return JUMP_VELOCITY*0.9
 	
 	if !is_on_floor():
 		if self.double_jumped:
@@ -31,6 +34,15 @@ func get_jump_velocity():
 			self.double_jumped = true
 			return DOUBLE_JUMP_VELOCITY
 	return 0.0
+
+func calculate_gravity():
+	if is_on_wall():
+		if velocity.y > 0:
+			return get_gravity()*0.1
+		else:
+			return get_gravity()
+	else:
+		return get_gravity()
 
 func _physics_process(delta: float) -> void:
 	self.iframes = max(0, self.iframes-1)
@@ -41,7 +53,7 @@ func _physics_process(delta: float) -> void:
 	
 	# Add the gravity.
 	if not is_on_floor():
-		velocity += get_gravity() * delta
+		velocity += calculate_gravity() * delta
 	else:
 		double_jumped = false
 	

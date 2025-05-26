@@ -30,7 +30,8 @@ bus = &"SFX"
 unique_name_in_owner = true
 position = Vector2(-247, -18)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera" type="Camera2D" parent="Player"]
+unique_name_in_owner = true
 position = Vector2(10, -10)
 zoom = Vector2(4, 4)
 limit_bottom = 70
