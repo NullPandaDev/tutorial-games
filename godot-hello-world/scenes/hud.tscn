@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://cgiu23sdxylsw"]
+
+[ext_resource type="Texture2D" uid="uid://cxhcqj3tmvdrr" path="res://assets/sprites/coin.png" id="1_oo0fn"]
+[ext_resource type="FontFile" uid="uid://7bjtj56ygqt8" path="res://assets/fonts/PixelOperator8.ttf" id="2_5ysmq"]
+[ext_resource type="Texture2D" uid="uid://cyw5d8fl8bfsm" path="res://assets/sprites/knight.png" id="3_5ysmq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fi6k"]
+atlas = ExtResource("1_oo0fn")
+region = Rect2(83.5399, 3.06231, 9.2296, 10.1526)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uo2fv"]
+atlas = ExtResource("3_5ysmq")
+region = Rect2(9.06061, 8.75876, 13.2674, 19.9011)
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 24.0
+offset_right = 69.0
+offset_bottom = 61.0
+texture = SubResource("AtlasTexture_6fi6k")
+
+[node name="Label" type="Label" parent="TextureRect"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 31.0
+theme_override_fonts/font = ExtResource("2_5ysmq")
+theme_override_font_sizes/font_size = 16
+text = "x0"
+
+[node name="Hearts" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 64.0
+offset_right = 68.0
+offset_bottom = 104.0
+texture = SubResource("AtlasTexture_uo2fv")
+
+[node name="Label" type="Label" parent="Hearts"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 16.0
+offset_right = 72.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("2_5ysmq")
+theme_override_font_sizes/font_size = 16
+text = "x3"

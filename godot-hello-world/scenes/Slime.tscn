@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://dktfeksysffsx"]
 
-[ext_resource type="Texture2D" uid="uid://baqjepv8p15ai" path="res://assets/sprites/slime_green.png" id="1_15vis"]
-[ext_resource type="Script" uid="uid://cigp40y62y2w2" path="res://scripts/slime.gd" id="1_wcugo"]
-[ext_resource type="PackedScene" uid="uid://jxc0beahllc5" path="res://scenes/killzone.tscn" id="2_2hd65"]
+[ext_resource type="Texture2D" uid="uid://bk08av3yx6ykb" path="res://assets/sprites/slime_green.png" id="1_15vis"]
+[ext_resource type="Script" uid="uid://c4cwxwrfy6863" path="res://scripts/slime.gd" id="1_wcugo"]
+[ext_resource type="PackedScene" uid="uid://bj1tglm5lcqpj" path="res://scenes/damage_zone.tscn" id="3_wcugo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2hd65"]
 atlas = ExtResource("1_15vis")
@@ -43,25 +43,30 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wcugo"]
 size = Vector2(8, 10)
 
-[node name="Slime" type="Node2D"]
+[node name="Slime" type="Node2D" groups=["pausable", "slime"]]
 script = ExtResource("1_wcugo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(21, 3)
 sprite_frames = SubResource("SpriteFrames_rrqju")
 autoplay = "default"
-frame_progress = 0.113239
 
-[node name="Killzone" parent="." instance=ExtResource("2_2hd65")]
+[node name="SlimeDZ" parent="." instance=ExtResource("3_wcugo")]
+collision_layer = 7
+collision_mask = 6
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SlimeDZ"]
 position = Vector2(21, 9)
 shape = SubResource("RectangleShape2D_wcugo")
 
-[node name="Left" type="RayCast2D" parent="Killzone"]
+[node name="Left" type="RayCast2D" parent="SlimeDZ"]
 position = Vector2(21, 7)
 target_position = Vector2(-10, 0)
 
-[node name="Right" type="RayCast2D" parent="Killzone"]
+[node name="Right" type="RayCast2D" parent="SlimeDZ"]
 position = Vector2(21, 7)
 target_position = Vector2(10, 0)
+
+[connection signal="area_shape_entered" from="SlimeDZ" to="SlimeDZ" method="_on_area_shape_entered"]
+[connection signal="body_entered" from="SlimeDZ" to="." method="_on_damage_zone_body_entered"]
+[connection signal="body_shape_entered" from="SlimeDZ" to="SlimeDZ" method="_on_body_shape_entered"]

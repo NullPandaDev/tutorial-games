@@ -1,8 +1,8 @@
 [gd_scene load_steps=18 format=3 uid="uid://y1876qan73gy"]
 
-[ext_resource type="Script" uid="uid://dpdjymde7x6vd" path="res://scripts/coin.gd" id="1_i64fm"]
-[ext_resource type="Texture2D" uid="uid://bgvq8vmhglg60" path="res://assets/sprites/coin.png" id="1_rwqht"]
-[ext_resource type="AudioStream" uid="uid://b37mnrii6h1g1" path="res://assets/sounds/coin.wav" id="3_11l1o"]
+[ext_resource type="Script" uid="uid://b8uugsr4s7et1" path="res://scripts/coin.gd" id="1_i64fm"]
+[ext_resource type="Texture2D" uid="uid://cxhcqj3tmvdrr" path="res://assets/sprites/coin.png" id="1_rwqht"]
+[ext_resource type="AudioStream" uid="uid://d2a6hngot5g8w" path="res://assets/sounds/coin.wav" id="3_11l1o"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i64fm"]
 atlas = ExtResource("1_rwqht")
@@ -99,7 +99,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_rwqht"]
 radius = 5.09902
 
-[node name="Coin" type="Area2D"]
+[node name="Coin" type="Area2D" groups=["coin"]]
 collision_mask = 2
 script = ExtResource("1_i64fm")
 
