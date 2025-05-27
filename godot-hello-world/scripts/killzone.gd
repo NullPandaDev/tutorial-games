@@ -2,6 +2,8 @@ extends Area2D
 
 @onready var timer: Timer = $Timer # Added timer for tutorial value
 
+signal player_death
+
 func _on_body_entered(body: Node2D) -> void:
 	var die_sfx = body.get_node("Die") as AudioStreamPlayer2D
 	die_sfx.play()
@@ -9,4 +11,6 @@ func _on_body_entered(body: Node2D) -> void:
 	timer.start()
 
 func _on_timer_timeout() -> void:
-	get_tree().reload_current_scene()
+	print("player death")
+	emit_signal("player_death")
+	#get_tree().reload_current_scene()

@@ -43,14 +43,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wcugo"]
 size = Vector2(8, 10)
 
-[node name="Slime" type="Node2D"]
+[node name="Slime" type="Node2D" groups=["pausable", "slime"]]
 script = ExtResource("1_wcugo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(21, 3)
 sprite_frames = SubResource("SpriteFrames_rrqju")
 autoplay = "default"
-frame_progress = 0.113239
 
 [node name="SlimeDZ" parent="." instance=ExtResource("3_wcugo")]
 collision_layer = 7

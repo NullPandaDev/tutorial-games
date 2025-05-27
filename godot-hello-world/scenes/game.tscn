@@ -1,7 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://gv7lad8jdbyj"]
+[gd_scene load_steps=7 format=3 uid="uid://gv7lad8jdbyj"]
 
 [ext_resource type="Script" uid="uid://cjetpxkgacfbm" path="res://scripts/general_manager.gd" id="1_gee14"]
-[ext_resource type="Script" uid="uid://c4cwxwrfy6863" path="res://scripts/slime.gd" id="1_kvpfn"]
 [ext_resource type="PackedScene" uid="uid://bdl1xslk0xp8f" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://cgiu23sdxylsw" path="res://scenes/hud.tscn" id="1_vtaks"]
 [ext_resource type="PackedScene" uid="uid://b5y4nyfl8qtol" path="res://scenes/menu.tscn" id="3_kvpfn"]
@@ -9,7 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://d2a6hngot5g8w" path="res://assets/sounds/coin.wav" id="9_0tnpc"]
 
 [node name="Game" type="Node2D"]
-script = ExtResource("1_kvpfn")
+script = ExtResource("1_gee14")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -17,14 +16,6 @@ script = ExtResource("1_kvpfn")
 
 [node name="Menu" parent="CanvasLayer" instance=ExtResource("3_kvpfn")]
 unique_name_in_owner = true
-
-[node name="GeneralManager" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("1_gee14")
-
-[node name="PickUpCoin" type="AudioStreamPlayer2D" parent="GeneralManager"]
-stream = ExtResource("9_0tnpc")
-bus = &"SFX"
 
 [node name="Player" parent="." instance=ExtResource("1_uwrxv")]
 unique_name_in_owner = true
@@ -40,3 +31,9 @@ position_smoothing_enabled = true
 
 [node name="Level" parent="." instance=ExtResource("7_u5sy4")]
 unique_name_in_owner = true
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="PickUpCoin" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("9_0tnpc")
+bus = &"SFX"
