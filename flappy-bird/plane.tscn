@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://jlloue5smhy8"]
+
+[ext_resource type="Script" uid="uid://dfelchgtuatyk" path="res://plane.gd" id="1_dpar4"]
+[ext_resource type="Texture2D" uid="uid://dfk42hrl4xjw5" path="res://planes.png" id="1_s46f0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dpar4"]
+atlas = ExtResource("1_s46f0")
+region = Rect2(0, 146, 88, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nqs3l"]
+atlas = ExtResource("1_s46f0")
+region = Rect2(0, 219, 88, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xwvw"]
+atlas = ExtResource("1_s46f0")
+region = Rect2(0, 292, 88, 73)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_28khi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpar4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nqs3l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6xwvw")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}]
+
+[node name="Plane" type="CharacterBody2D"]
+script = ExtResource("1_dpar4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 4)
+sprite_frames = SubResource("SpriteFrames_28khi")
+animation = &"fly"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(43, 8, 43, 6, 42, 4, 42, 0, 39, -2, 36, -2, 34, -3, 29, -13, 20, -14, 21, -19, 27, -21, 29, -25, 28, -29, 24, -31, -18, -32, -22, -25, -17, -20, -14, -20, -12, -15, -21, -15, -33, -21, -41, -18, -43, -13, -41, -8, -40, -4, -34, -1, -20, 15, -25, 23, -22, 31, -14, 31, -12, 26, 4, 32, 12, 39, 21, 38, 24, 31, 31, 28, 34, 15, 37, 18, 41, 16)

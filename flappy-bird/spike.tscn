@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4ebgr3284ecb"]
+
+[ext_resource type="Script" uid="uid://ddb5rednfoqmr" path="res://spikes.gd" id="1_nrdsm"]
+[ext_resource type="Texture2D" uid="uid://q315ub8w5ne4" path="res://sheet.png" id="1_s0g1x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrdsm"]
+atlas = ExtResource("1_s0g1x")
+region = Rect2(322.573, 1487.98, 110.648, 239.055)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7k7bx"]
+size = Vector2(10, 210)
+
+[node name="Spikes" type="Node2D" groups=["spike"]]
+script = ExtResource("1_nrdsm")
+
+[node name="Down" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Down"]
+texture = SubResource("AtlasTexture_nrdsm")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Down"]
+polygon = PackedVector2Array(16, 120, 8, 120, 8, 112, -52, -118, -78, -212, 123, -213, 53, -116, 46, -56, 39, -51, 33, 17, 27, 18)
+
+[node name="Up" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Up"]
+position = Vector2(23.3, 443.9)
+rotation = 3.14159
+texture = SubResource("AtlasTexture_nrdsm")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Up"]
+position = Vector2(23.3, 443.9)
+rotation = 3.14159
+polygon = PackedVector2Array(16, 120, 8, 120, 8, 112, -52, -118, -78, -212, 123, -213, 53, -116, 46, -56, 39, -51, 33, 17, 27, 18)
+
+[node name="SpikeThreshold" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpikeThreshold"]
+position = Vector2(11, 223)
+shape = SubResource("RectangleShape2D_7k7bx")
+
+[connection signal="body_entered" from="Down" to="." method="_on_down_body_entered_spike_down"]
+[connection signal="body_entered" from="Up" to="." method="_on_up_body_entered_spike_up"]
+[connection signal="body_exited" from="SpikeThreshold" to="." method="_on_spike_threshold_body_exited"]

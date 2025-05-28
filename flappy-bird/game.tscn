@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://db4utynh8kab2"]
+
+[ext_resource type="PackedScene" uid="uid://jlloue5smhy8" path="res://plane.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://c7030euuiidk1" path="res://game.gd" id="1_feb5d"]
+[ext_resource type="PackedScene" uid="uid://b4ebgr3284ecb" path="res://spike.tscn" id="2_e2o6t"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_feb5d")
+
+[node name="Plane" parent="." instance=ExtResource("1_80nbo")]
+position = Vector2(24, 139)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(90, 157)
+zoom = Vector2(1.5, 1.5)
+
+[node name="Spikes" type="Node" parent="."]
+
+[node name="Spikes1" parent="Spikes" instance=ExtResource("2_e2o6t")]
+position = Vector2(422, -52)
+
+[node name="Spikes2" parent="Spikes" instance=ExtResource("2_e2o6t")]
+visible = false
+position = Vector2(1471, -16)
+
+[node name="Spikes3" parent="Spikes" instance=ExtResource("2_e2o6t")]
+visible = false
+position = Vector2(777, -4)
+
+[node name="Spikes4" parent="Spikes" instance=ExtResource("2_e2o6t")]
+visible = false
+position = Vector2(1113, 6)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Button" type="Button" parent="HUD"]
+offset_left = 4.0
+offset_top = 216.0
+offset_right = 69.0
+offset_bottom = 247.0
+text = "Restart"
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+offset_left = 6.0
+offset_top = 193.0
+offset_right = 46.0
+offset_bottom = 216.0
+text = "0"
+
+[connection signal="button_down" from="HUD/Button" to="." method="_on_restart"]
