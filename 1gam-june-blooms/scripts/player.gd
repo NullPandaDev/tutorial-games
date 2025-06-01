@@ -17,24 +17,45 @@ class Player:
 	var coyote_timer = 0.0
 	var jump_buffer_time = 0.1
 	var jump_buffer_timer = 0.0
-
+	var gun_flash_right_sprite: AnimatedSprite2D
+	var gun_flash_left_sprite: AnimatedSprite2D
 	
 	func _init(speed: float, jump_velocity: float, player: CharacterBody2D):
 		self.speed = speed
 		self.jump_velocity = jump_velocity
 		self.player = player
 		self.sprite = player.get_node("AnimatedSprite2D")
+		self.gun_flash_right_sprite = player.get_node("GunFlashRight")
+		self.gun_flash_left_sprite = player.get_node("GunFlashLeft")
 		
 
 	
-	func play_animation(direction: int, is_on_floor: bool):
+	func tick_animation(direction: int, is_on_floor: bool):
+		self.gun_flash_right_sprite.visible = false
+		self.gun_flash_left_sprite.visible = false
+		
+		if Input.is_action_just_pressed("shoot"): # FIXME: This gets kicked out after 1 tick
+			sprite.animation = "shoot"
+			if sprite.flip_h == true:
+				self.gun_flash_left_sprite.visible = true
+			else:
+				self.gun_flash_right_sprite.visible = true
+			return
+			
 		if is_on_floor:
 			if direction == 0:
-				sprite.animation = "idle"
+				sprite.animation = "idle_with_gun"
 			else:
-				sprite.animation = "run"
+				sprite.animation = "run_with_gun"
 		else:
-			sprite.animation = "jump"
+			sprite.animation = "jump_with_gun"
+		#if is_on_floor:
+			#if direction == 0:
+				#sprite.animation = "idle"
+			#else:
+				#sprite.animation = "run"
+		#else:
+			#sprite.animation = "jump"
 
 	# Movement
 	func _move():
@@ -80,7 +101,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, player.speed)
 	
-	player.play_animation(direction, is_on_floor())
+	player.tick_animation(direction, is_on_floor())
 	player.tick(is_on_floor(), delta)
 	
 	# FIXME: Quick death
