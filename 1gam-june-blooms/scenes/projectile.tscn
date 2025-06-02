@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhr6cu534ej74"]
+
+[ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="1_c8fcr"]
+[ext_resource type="Script" uid="uid://bmwovdcd0vsiw" path="res://scripts/projectile.gd" id="1_q3m7n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3m7n"]
+atlas = ExtResource("1_c8fcr")
+region = Rect2(68, 68, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_softn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3m7n")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q3m7n"]
+size = Vector2(12, 6)
+
+[node name="Projectile" type="Area2D"]
+script = ExtResource("1_q3m7n")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_softn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_q3m7n")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

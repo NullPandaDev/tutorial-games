@@ -109,3 +109,10 @@ func _physics_process(delta: float) -> void:
 		get_tree().reload_current_scene()
 
 	move_and_slide()
+
+# Methods for Game object
+func get_direction():
+	if $AnimatedSprite2D.flip_h:
+		return -1
+	else:
+		return 1
