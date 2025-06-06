@@ -1,9 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://dgs1go3vqpbh5"]
+[gd_scene load_steps=17 format=3 uid="uid://dgs1go3vqpbh5"]
 
 [ext_resource type="Texture2D" uid="uid://ohrykskaueyc" path="res://assets/pixil-frame-0.png" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://cc8wbob8igkra" path="res://scripts/player.gd" id="1_g2els"]
 [ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="3_qhqgy"]
-[ext_resource type="PackedScene" uid="uid://bhr6cu534ej74" path="res://scenes/projectile.tscn" id="4_dqkch"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2els"]
 atlas = ExtResource("1_3vyb7")
@@ -165,17 +164,8 @@ sprite_frames = SubResource("SpriteFrames_3v2ag")
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_3vyb7")
 
-[node name="Projectile" parent="." instance=ExtResource("4_dqkch")]
-visible = false
-position = Vector2(12, 3)
-
 [node name="ProjectileMarkerRight" type="Marker2D" parent="."]
 position = Vector2(12, 3)
-
-[node name="Projectile2" parent="." instance=ExtResource("4_dqkch")]
-visible = false
-position = Vector2(-14, 3)
-rotation = 3.14159
 
 [node name="ProjectileMarkerLeft" type="Marker2D" parent="."]
 position = Vector2(-14, 3)

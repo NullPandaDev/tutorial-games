@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://be7h1r25p1t5o"]
+
+[ext_resource type="Script" uid="uid://bl1243xc52ceu" path="res://scripts/evil_bee.gd" id="1_gg04k"]
+[ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="1_jw8g1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gg04k"]
+atlas = ExtResource("1_jw8g1")
+region = Rect2(51, 85, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vyj3v"]
+atlas = ExtResource("1_jw8g1")
+region = Rect2(68, 85, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_siu0v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gg04k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vyj3v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_phrbw"]
+size = Vector2(11, 13)
+
+[node name="EvilBee" type="Area2D" groups=["evil_bee"]]
+script = ExtResource("1_gg04k")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_siu0v")
+autoplay = "default"
+frame_progress = 0.712543
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_phrbw")
+
+[node name="RayCastUp" type="RayCast2D" parent="."]
+target_position = Vector2(0, -11)
+
+[node name="RayCastRight" type="RayCast2D" parent="."]
+rotation = 1.5708
+target_position = Vector2(0, -11)
+
+[node name="RayCastDown" type="RayCast2D" parent="."]
+rotation = 3.14159
+target_position = Vector2(0, -11)
+
+[node name="RayCastLeft" type="RayCast2D" parent="."]
+rotation = 4.71239
+target_position = Vector2(0, -11)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
