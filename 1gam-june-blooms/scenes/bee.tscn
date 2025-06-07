@@ -29,6 +29,7 @@ animations = [{
 radius = 3.0
 
 [node name="Bee" type="Area2D" groups=["bee"]]
+z_index = 3
 script = ExtResource("1_vie5o")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

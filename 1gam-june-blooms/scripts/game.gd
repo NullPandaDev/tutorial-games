@@ -13,6 +13,7 @@ class Game:
 	
 	var shoot_time = 0.15
 	var shoot_timer = 0.0
+	var power_ups: Object
 	
 	
 	func _init(root: Node2D, tree: SceneTree) -> void:
@@ -28,14 +29,27 @@ class Game:
 			projectile.direction = 1
 			projectile.global_position = marker.global_position
 			root.get_parent().add_child(projectile)
+			projectile.get_node("AnimatedSprite2D").animation = player.player.power_up
+			
+			#if player.player.power_up == "RED":
+				#projectile.modulate =  Color(1, 0, 0)
+			#elif player.player.power_up == "YELLOW":
+				#projectile.modulate =  Color(252, 252, 0)
 		else:
 			var marker = self.player.get_node("ProjectileMarkerLeft")
 			var projectile = PROJECTILE_SCENE.instantiate()
+			projectile.get_node("AnimatedSprite2D").animation = player.player.power_up
 			projectile.name = "Projectile" + str(Engine.get_process_frames())
 			projectile.direction = -1
 			projectile.rotation = ONE_EIGHT_DEG_IN_RAD
 			projectile.global_position = marker.global_position
 			root.get_parent().add_child(projectile)
+			projectile.get_node("AnimatedSprite2D").animation = player.player.power_up
+			
+			#if player.player.power_up == "RED":
+				#projectile.modulate =  Color(1, 0, 0)
+			#elif player.player.power_up == "YELLOW":
+				#projectile.modulate =  Color(252, 252, 0)
 
 	func _get_closest_bee(evil_bee: Area2D, bees) -> Area2D:
 		var closest_distance: float = 99999999
@@ -114,11 +128,12 @@ func _ready() -> void:
 	for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
 		evil_bee.refresh(bees, $TileMap)
 	
-
-	#$EvilBees/EvilBee.refresh($Bees/Bee2, $TileMap)
-	#$EvilBees/EvilBee2.refresh($Bees/Bee2, $TileMap)
-	#astargrid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
-	#setup_grid()
+	var plants = get_tree().get_nodes_in_group("plant")
+	for bee: Area2D in bees:
+		bee.refresh($TileMap, plants)
+	
+	for plant: Area2D in plants:
+		plant.connect("plant_grown", Callable(self, "_on_plant_grown"))
 
 func _on_bee_died() -> void:
 	await get_tree().process_frame # FIXME: This is a bit fucked
@@ -128,6 +143,14 @@ func _on_bee_died() -> void:
 	print(bees)
 	for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
 		evil_bee.refresh(bees, $TileMap)
+
+func _on_plant_grown() -> void:
+	await get_tree().process_frame # FIXME: This is a bit fucked
+
+	print("recv 'plant_grown'")
+	var plants = get_tree().get_nodes_in_group("plant")
+	for bee: Area2D in get_tree().get_nodes_in_group("bee"):
+		bee.refresh($TileMap, plants)
 
 const EvilBeeScript = preload("res://scripts/evil_bee.gd")
 #class_name EvilBee

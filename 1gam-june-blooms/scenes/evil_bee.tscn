@@ -29,12 +29,13 @@ animations = [{
 size = Vector2(11, 13)
 
 [node name="EvilBee" type="Area2D" groups=["evil_bee"]]
+z_index = 1
 script = ExtResource("1_gg04k")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_siu0v")
 autoplay = "default"
-frame_progress = 0.712543
+frame_progress = 0.0461008
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -0.5)

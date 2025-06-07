@@ -11,6 +11,7 @@ class EvilBee:
 	var path_index: int
 	
 	func _init(bee: Area2D, evil_bee: Area2D, tilemap: TileMap) -> void:
+		self.bee = bee
 		self.astargrid = AStarGrid2D.new()
 		astargrid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 		self.evil_bee = evil_bee
@@ -67,10 +68,19 @@ class EvilBee:
 		var cell_size = astargrid.cell_size
 		return Vector2i(floor(position.x / cell_size.x), floor(position.y / cell_size.y))
 
+	func has_bee_position_changed() -> bool:
+		print(self.bee)
+		if self.bee:
+			print([self.bee.position, self.path[-1]])
+			if _world_to_map(self.bee.position) != self.path[-1]:
+				print("change pos!")
+				return true
+		return false
+
 	func move_towards(delta:float):
 		if self.path_index < self.path.size() and self.path[self.path_index] != null:
 			var end = _map_to_world(self.path[path_index]) # FIXME: Adding in end pos and trying to keep straight line travel
-			self.evil_bee.position = self.evil_bee.position.move_toward(Vector2(end.x, end.y), 20 * delta)
+			self.evil_bee.position = self.evil_bee.position.move_toward(Vector2(end.x, end.y), 15 * delta)
 			if self.evil_bee.position == _map_to_world(self.path[path_index]):
 				self.path_index += 1
 
@@ -88,8 +98,11 @@ func _on_area_entered(area: Area2D) -> void:
 #func refresh(bees: Array, tilemap: TileMap) -> void:
 	#print("refresh")
 	#self.evil_bee = EvilBee.new(bees.get(0), $".", tilemap)
-
+var bees: Array
+var tilemap: TileMap
 func refresh(bees: Array, tilemap: TileMap) -> void:
+	self.bees = bees
+	self.tilemap = tilemap
 	var min_distance: float = 999999999.0
 	var closest_bee = null
 	for bee: Area2D in bees:
@@ -98,8 +111,20 @@ func refresh(bees: Array, tilemap: TileMap) -> void:
 			min_distance = distance
 			closest_bee = bee
 	self.evil_bee = EvilBee.new(closest_bee, $".", tilemap)
-	
+
+var recalculate_time = 4.0
+var recalculate_timer = 0.0
 
 func _process(delta: float) -> void:
-	if self.evil_bee != null:
+	recalculate_timer += delta
+	if recalculate_timer >= recalculate_time:
+		recalculate_timer = 0
+		refresh(bees, tilemap)
+	else:
 		self.evil_bee.move_towards(delta)
+		
+		#
+	#if self.evil_bee != null:
+		#if self.evil_bee.has_bee_position_changed():
+		#else:
+			#self.evil_bee.move_towards(delta)

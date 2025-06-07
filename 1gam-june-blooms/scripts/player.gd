@@ -6,10 +6,17 @@ const JUMP_VELOCITY = -270.0
 
 @onready var player = Player.new(SPEED, JUMP_VELOCITY, $".")
 
+#enum PowerUp {
+	#NORMAL,
+	#RED
+#}
+
 # Local class
 class Player:
 	# FIXME: Just get this stuff globably within class
 	var speed: int
+	#var power_up: PowerUp = PowerUp.NORMAL
+	var power_up = "NORMAL"
 	var jump_velocity: float
 	var player: CharacterBody2D
 	var sprite: AnimatedSprite2D
