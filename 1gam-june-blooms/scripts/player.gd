@@ -26,6 +26,7 @@ class Player:
 	var jump_buffer_timer = 0.0
 	var gun_flash_right_sprite: AnimatedSprite2D
 	var gun_flash_left_sprite: AnimatedSprite2D
+	var amo = 10
 	
 	func _init(speed: float, jump_velocity: float, player: CharacterBody2D):
 		self.speed = speed

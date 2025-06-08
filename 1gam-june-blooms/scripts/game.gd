@@ -22,6 +22,11 @@ class Game:
 		self.player = root.get_node("Player")
 	
 	func _shoot():
+		print(self.player.player.amo)
+		if self.player.player.amo <= 0:
+			return
+
+		self.player.player.amo -= 1
 		if player.get_direction() == 1:
 			var marker = self.player.get_node("ProjectileMarkerRight")
 			var projectile = PROJECTILE_SCENE.instantiate()
