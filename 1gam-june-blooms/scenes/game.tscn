@@ -162,8 +162,17 @@ position = Vector2(43, -83)
 [node name="EvilBee2" parent="EvilBees" instance=ExtResource("4_lbhrr")]
 position = Vector2(104, -17)
 
-[node name="EvilBeeSpawn1" type="Marker2D" parent="EvilBees"]
-position = Vector2(-154, -46)
+[node name="ebs1" type="Marker2D" parent="EvilBees" groups=["evil_bee_spawn"]]
+position = Vector2(-187, -107)
+
+[node name="ebs2" type="Marker2D" parent="EvilBees" groups=["evil_bee_spawn"]]
+position = Vector2(182, 103)
+
+[node name="ebs3" type="Marker2D" parent="EvilBees" groups=["evil_bee_spawn"]]
+position = Vector2(187, -109)
+
+[node name="ebs4" type="Marker2D" parent="EvilBees" groups=["evil_bee_spawn"]]
+position = Vector2(-186, 89)
 
 [node name="Bees" type="Node" parent="."]
 
