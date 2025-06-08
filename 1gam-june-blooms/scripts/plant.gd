@@ -14,7 +14,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	frame_timer += delta
 	if frame_timer >= frame_time and bees_on_flower > 0:
-		print("next frame")
 		$AnimatedSprite2D.frame += 1
 		frame_timer = 0
 		if $AnimatedSprite2D.frame == 9:
@@ -34,9 +33,6 @@ func _on_area_exited(area: Area2D) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	#if !is_in_group("plant"):
-	print(body)
 	if !is_in_group("plant") and body.name.begins_with("Player"):
-		print("player picks up powerup")
 		body.player.power_up = $AnimatedSprite2D.animation
 		queue_free()

@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dgs1go3vqpbh5" path="res://scenes/player.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://be7h1r25p1t5o" path="res://scenes/evil_bee.tscn" id="4_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://c6hbgrsqrmy3o" path="res://scenes/bee.tscn" id="5_iywne"]
-[ext_resource type="PackedScene" uid="uid://dukslg0djii2x" path="res://scenes/plant.tscn" id="6_p57ef"]
+[ext_resource type="PackedScene" uid="uid://ch0rjimw0mcst" path="res://scenes/plant_spawn.tscn" id="7_u5sy4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yqjtg"]
 texture = ExtResource("1_uwrxv")
@@ -160,19 +160,7 @@ position = Vector2(-184, 88)
 position = Vector2(43, -83)
 
 [node name="EvilBee2" parent="EvilBees" instance=ExtResource("4_lbhrr")]
-position = Vector2(104, -17)
-
-[node name="ebs1" type="Marker2D" parent="EvilBees" groups=["evil_bee_spawn"]]
-position = Vector2(-187, -107)
-
-[node name="ebs2" type="Marker2D" parent="EvilBees" groups=["evil_bee_spawn"]]
-position = Vector2(182, 103)
-
-[node name="ebs3" type="Marker2D" parent="EvilBees" groups=["evil_bee_spawn"]]
-position = Vector2(187, -109)
-
-[node name="ebs4" type="Marker2D" parent="EvilBees" groups=["evil_bee_spawn"]]
-position = Vector2(-186, 89)
+position = Vector2(136, -32)
 
 [node name="Bees" type="Node" parent="."]
 
@@ -184,14 +172,32 @@ position = Vector2(143, 40)
 
 [node name="Plants" type="Node" parent="."]
 
-[node name="Plant" parent="Plants" instance=ExtResource("6_p57ef")]
-position = Vector2(37, 56)
+[node name="spawns" type="Node" parent="."]
 
-[node name="Plant2" parent="Plants" instance=ExtResource("6_p57ef")]
-position = Vector2(-85, -40)
+[node name="EvilBee" type="Node" parent="spawns"]
 
-[node name="Plant3" parent="Plants" instance=ExtResource("6_p57ef")]
-position = Vector2(9, -8)
+[node name="ebs1" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
+position = Vector2(-187, -107)
 
-[node name="Plant4" parent="Plants" instance=ExtResource("6_p57ef")]
-position = Vector2(89, 24)
+[node name="ebs2" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
+position = Vector2(182, 103)
+
+[node name="ebs3" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
+position = Vector2(187, -109)
+
+[node name="ebs4" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
+position = Vector2(-186, 89)
+
+[node name="Plants" type="Node" parent="spawns"]
+
+[node name="PlantSpawn5" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(-80, -40)
+
+[node name="PlantSpawn6" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(120, 40)
+
+[node name="PlantSpawn7" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(-144, 56)
+
+[node name="PlantSpawn8" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(168, -56)

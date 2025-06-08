@@ -40,9 +40,6 @@ class EvilBee:
 				if tile_id != -1:
 					var tile_data = tilemap.get_cell_tile_data(0, cell)
 					var flyable = tile_data.get_custom_data("flyable")
-					#print(flyable)
-					#if !flyable:
-						#print(cell, flyable)
 					
 					astargrid.set_point_solid(cell, !flyable)
 		
@@ -56,7 +53,6 @@ class EvilBee:
 			self.path = astargrid.get_id_path(start, end)
 		else:
 			self.path = []
-		#print("Path:", path)
 
 	func _map_to_world(cell: Vector2i) -> Vector2:
 		var cell_size = astargrid.cell_size
@@ -69,11 +65,8 @@ class EvilBee:
 		return Vector2i(floor(position.x / cell_size.x), floor(position.y / cell_size.y))
 
 	func has_bee_position_changed() -> bool:
-		print(self.bee)
 		if self.bee:
-			print([self.bee.position, self.path[-1]])
 			if _world_to_map(self.bee.position) != self.path[-1]:
-				print("change pos!")
 				return true
 		return false
 
@@ -96,15 +89,7 @@ func _on_area_entered(area: Area2D) -> void:
 		
 		area.queue_free()
 		queue_free()
-	#print(area, ",", area.name)
 
-#func world_to_map(position: Vector2) -> Vector2i:
-	#var cell_size = astargrid.cell_size
-	#return Vector2i(floor(position.x / cell_size.x), floor(position.y / cell_size.y))
-
-#func refresh(bees: Array, tilemap: TileMap) -> void:
-	#print("refresh")
-	#self.evil_bee = EvilBee.new(bees.get(0), $".", tilemap)
 var bees: Array
 var tilemap: TileMap
 func refresh(bees: Array, tilemap: TileMap) -> void:

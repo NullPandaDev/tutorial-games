@@ -5,7 +5,6 @@ signal bee_died
 var bee: Bee
 
 func _on_area_entered(area: Area2D) -> void:
-	print(area.name)
 	if area.name.begins_with("Projectile") or area.name.begins_with("EvilBee"):
 		if area.name.begins_with("Projectile"):
 			var explode: CPUParticles2D = area.get_node("ExplodeBee").duplicate()
@@ -33,6 +32,10 @@ func refresh(tilemap: TileMap, plants: Array) -> void:
 		if distance < min_distance:
 			min_distance = distance
 			closest_plant = plant
+	
+	 #FIXME: Overrides the code above to cause random selection
+	if plants != null and !plants.is_empty():
+		closest_plant = plants[randi()%plants.size()]
 	self.bee = Bee.new(closest_plant, $".", tilemap)
 
 
@@ -75,9 +78,6 @@ class Bee:
 				if tile_id != -1:
 					var tile_data = tilemap.get_cell_tile_data(0, cell)
 					var flyable = tile_data.get_custom_data("flyable")
-					#print(flyable)
-					#if !flyable:
-						#print(cell, flyable)
 					
 					astargrid.set_point_solid(cell, !flyable)
 		
@@ -87,12 +87,16 @@ class Bee:
 		#var end: Vector2i = Vector2i(-7,-6)
 		if self.evil_bee != null and plant != null:
 			var start: Vector2i = _world_to_map(self.evil_bee.position)
-			var end: Vector2i = _world_to_map(plant.position)
+			var end: Vector2i = _world_to_map(plant.global_position) # FIXME: needed to do global position since pos was all messed up
 			self.path = astargrid.get_id_path(start, end)
 		else:
 			self.path = []
-		#print("Path:", path)
-		#self.path = astargrid.get_id_path(start, Vector2i(-12, -4))
+		
+		
+		#if plant == null:
+			#print("PATH: ", self.path, ", Start: ", null, ", end: ", self._world_to_map(self.evil_bee.position) )
+		#else:
+			#print("PATH: ", self.path, ", Start: ", self._world_to_map(plant.global_position), ", end: ", self._world_to_map(self.evil_bee.position) )
 		
 
 	func _map_to_world(cell: Vector2i) -> Vector2:
