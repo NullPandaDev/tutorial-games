@@ -87,6 +87,13 @@ class EvilBee:
 
 func _on_area_entered(area: Area2D) -> void:
 	if (area.name.begins_with("Projectile")):
+		var explode: CPUParticles2D = area.get_node("ExplodeEvilBee").duplicate()
+		var end_pos = position
+		get_parent().add_child(explode)
+		explode.position = end_pos
+		explode.emitting = true
+		
+		
 		area.queue_free()
 		queue_free()
 	#print(area, ",", area.name)

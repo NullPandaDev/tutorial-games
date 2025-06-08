@@ -14,4 +14,12 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
+	#var explode: CPUParticles2D = get_node("Explode").duplicate()
+	#var end_pos = global_position
+	#print(global_position)
 	self.queue_free()
+	#get_parent().add_child(explode)
+	#print(explode.position)
+	#explode.position = end_pos
+	#explode.emitting = true
+	#print(explode.position)

@@ -68,10 +68,25 @@ class Game:
 		self.shoot_timer -= delta
 		#_move_evil_bees(delta)
 
+
+var evil_bee_spawn_time = 1.0
+var evil_bee_spawn_timer = 0.0
+var EVIL_BEE_SCENE := preload("res://scenes/evil_bee.tscn")
+
 func _process(delta: float) -> void:
 	game.process(delta)
-	if self.evil_bee != null:
-		self.evil_bee.move_towards(delta)
+	
+	evil_bee_spawn_timer += delta
+	if evil_bee_spawn_timer >= evil_bee_spawn_time:
+		print("SPAWN")
+		evil_bee_spawn_timer = 0
+		var spawn_pos = $EvilBees/EvilBeeSpawn1.position
+		var eb = EVIL_BEE_SCENE.instantiate()
+		eb.position = spawn_pos
+		eb.refresh(get_tree().get_nodes_in_group("bee"), $TileMap)
+		assert(false, "FIXME: Trying to get evil bee spawn to work")
+	#if self.evil_bee != null:
+		#self.evil_bee.move_towards(delta)
 
 var astargrid := AStarGrid2D.new()
 func setup_grid():

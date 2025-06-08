@@ -8,6 +8,11 @@ func _on_area_entered(area: Area2D) -> void:
 	print(area.name)
 	if area.name.begins_with("Projectile") or area.name.begins_with("EvilBee"):
 		if area.name.begins_with("Projectile"):
+			var explode: CPUParticles2D = area.get_node("ExplodeBee").duplicate()
+			var end_pos = position
+			get_parent().add_child(explode)
+			explode.position = end_pos
+			explode.emitting = true
 			area.queue_free()
 		queue_free()
 		emit_signal("bee_died")
