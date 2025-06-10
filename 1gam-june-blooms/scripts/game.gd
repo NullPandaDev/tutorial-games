@@ -3,6 +3,7 @@ extends Node2D
 @onready var root: Node2D = $"."
 @onready var game = Game.new(root, get_tree())
 @onready var tilemap: TileMap = $TileMap
+@onready var bees: Array[Bee]
 
 class Game:
 	var ONE_EIGHT_DEG_IN_RAD = 3.14159
@@ -90,11 +91,13 @@ func _process(delta: float) -> void:
 	if evil_bee_spawn_timer >= EVIL_BEE_SPAWN_TIME:
 		evil_bee_spawn_timer = 0
 		var spawns = get_tree().get_nodes_in_group("evil_bee_spawn")
-		var spawn_pos = spawns[randi() % spawns.size()].position
-		var eb = EVIL_BEE_SCENE.instantiate()
-		get_parent().add_child(eb)
-		eb.position = spawn_pos
-		eb.refresh(get_tree().get_nodes_in_group("bee"), $TileMap)
+		var spawn: Marker2D = spawns[randi() % spawns.size()]
+		if spawn.visible:
+			var spawn_pos = spawn.position
+			var eb = EVIL_BEE_SCENE.instantiate()
+			get_parent().add_child(eb)
+			eb.position = spawn_pos
+			eb.refresh(get_tree().get_nodes_in_group("bee"), $TileMap)
 	
 	plant_spawn_timer += delta
 	if plant_spawn_timer >= PLANT_SPAWN_TIME:
@@ -118,12 +121,27 @@ func _ready() -> void:
 	for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
 		evil_bee.refresh(bees, $TileMap)
 	
-	var plants = get_tree().get_nodes_in_group("plant")
-	for bee: Area2D in bees:
-		bee.refresh($TileMap, plants)
+	var plants: Array = get_tree().get_nodes_in_group("plant")
+	#for bee: Area2D in bees: # FIXME 1
+		#bee.refresh($TileMap, plants)
 	
 	for plant: Area2D in plants:
 		plant.connect("plant_grown", Callable(self, "_on_plant_grown"))
+	
+	var new_bee = Bee.create(plants)
+	new_bee.global_position = get_tree().get_nodes_in_group("bee_spawn").get(0).global_position
+	add_child(new_bee)
+	self.bees.append(new_bee)
+	PathFinder.new(plants.get(0).position, new_bee.position, $TileMap)
+	assert(true, "FORCE FIAL. READ COMMENT")
+	
+# HERE: We will want to have path finder on the bee and have a abstracted method.
+# But for now we will want to just work more on the pathfinder. Get it working.
+# We got the path to work nicely. So it's just a matter of maybe changing the init to do just that and then
+# Follow up call to gen path? With dest etc
+# But honestly that's for later right now it seems like we will want to move it to the bee and then get the
+# Bee moving to a single flower. THen to a set of flowers then get newly spawned flowers to attact the bee as well
+	
 
 func _on_bee_died() -> void:
 	await get_tree().process_frame # FIXME: This is a bit fucked
@@ -136,8 +154,8 @@ func _on_plant_grown() -> void:
 	await get_tree().process_frame # FIXME: This is a bit fucked
 
 	var plants = get_tree().get_nodes_in_group("plant")
-	for bee: Area2D in get_tree().get_nodes_in_group("bee"):
-		bee.refresh($TileMap, plants)
+	#for bee: Area2D in get_tree().get_nodes_in_group("bee"): # FIXME: 2
+		#bee.refresh($TileMap, plants)
 
 const EvilBeeScript = preload("res://scripts/evil_bee.gd")
 #class_name EvilBee

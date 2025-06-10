@@ -1,4 +1,4 @@
-extends Area2D
+class_name Plant extends Area2D
 
 signal plant_grown
 

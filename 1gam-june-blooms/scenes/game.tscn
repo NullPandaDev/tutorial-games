@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1gn3rf5nhmyy"]
+[gd_scene load_steps=9 format=3 uid="uid://b1gn3rf5nhmyy"]
 
 [ext_resource type="Script" uid="uid://cqjd8efriymko" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://dgs1go3vqpbh5" path="res://scenes/player.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://c6hbgrsqrmy3o" path="res://scenes/bee.tscn" id="5_iywne"]
+[ext_resource type="PackedScene" uid="uid://dukslg0djii2x" path="res://scenes/plant.tscn" id="6_p57ef"]
 [ext_resource type="PackedScene" uid="uid://ch0rjimw0mcst" path="res://scenes/plant_spawn.tscn" id="7_u5sy4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yqjtg"]
@@ -163,6 +164,9 @@ position = Vector2(-54, -42)
 [node name="Bee" parent="Bees" instance=ExtResource("5_iywne")]
 position = Vector2(143, 40)
 
+[node name="BeeSpawnOne" type="Marker2D" parent="Bees" groups=["bee_spawn"]]
+position = Vector2(0, -16)
+
 [node name="Plants" type="Node" parent="."]
 
 [node name="spawns" type="Node" parent="."]
@@ -170,15 +174,19 @@ position = Vector2(143, 40)
 [node name="EvilBee" type="Node" parent="spawns"]
 
 [node name="ebs1" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
+visible = false
 position = Vector2(-187, -107)
 
 [node name="ebs2" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
+visible = false
 position = Vector2(182, 103)
 
 [node name="ebs3" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
+visible = false
 position = Vector2(187, -109)
 
 [node name="ebs4" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
+visible = false
 position = Vector2(-186, 89)
 
 [node name="Plants" type="Node" parent="spawns"]
@@ -194,3 +202,6 @@ position = Vector2(-144, 56)
 
 [node name="PlantSpawn8" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
 position = Vector2(168, -56)
+
+[node name="Plant" parent="." instance=ExtResource("6_p57ef")]
+position = Vector2(-136, -40)
