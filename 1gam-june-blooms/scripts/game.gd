@@ -128,14 +128,15 @@ func _ready() -> void:
 	for plant: Area2D in plants:
 		plant.connect("plant_grown", Callable(self, "_on_plant_grown"))
 	
-	var new_bee = Bee.create(plants)
+	var path_finder: PathFinder = PathFinder.new($TileMap)
+	var new_bee = Bee.create(path_finder, plants)
 	new_bee.global_position = get_tree().get_nodes_in_group("bee_spawn").get(0).global_position
 	add_child(new_bee)
 	self.bees.append(new_bee)
-	PathFinder.new(plants.get(0).position, new_bee.position, $TileMap)
-	assert(true, "FORCE FIAL. READ COMMENT")
+	#path_finder.find_path(plants.get(0).position, new_bee.position)
+	#assert(true, "FORCE FIAL. READ COMMENT")
 	
-# HERE: We will want to have path finder on the bee and have a abstracted method.
+# HERE: We will want to have path finder on the bee and have an abstracted method.
 # But for now we will want to just work more on the pathfinder. Get it working.
 # We got the path to work nicely. So it's just a matter of maybe changing the init to do just that and then
 # Follow up call to gen path? With dest etc

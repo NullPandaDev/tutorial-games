@@ -8,13 +8,10 @@ var path: Array[Vector2i]
 var path_index: int
 var tilemap: TileMap
 
-
-func _init(destination: Vector2, origin: Vector2, tilemap: TileMap) -> void:
+func _init(tilemap: TileMap) -> void:
 	self.astargrid = AStarGrid2D.new()
 	astargrid.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_ONLY_IF_NO_OBSTACLES
 	self.current_position = origin
-	self.destination = destination
-	self.origin = origin
 	self.path = []
 	self.path_index = 0
 	self.tilemap = tilemap
@@ -45,18 +42,23 @@ func _init(destination: Vector2, origin: Vector2, tilemap: TileMap) -> void:
 				
 				astargrid.set_point_solid(cell, !flyable)
 	
+func find_path(destination: Vector2i, origin: Vector2i) -> Path:
+	self.destination = destination
+	self.origin = origin
 	
-
 	#var start: Vector2i = Vector2i(0,-6)
 	#var end: Vector2i = Vector2i(-7,-6)
+	var world_path: Array[Vector2] = []
 	if self.origin != null and self.destination != null:
 		var start: Vector2i = _world_to_map(self.origin)
 		var end: Vector2i = _world_to_map(self.destination)
 		self.path = astargrid.get_id_path(start, end)
+		print("Grid Path: ", self.path)
+		for x: Vector2i in self.path:
+			world_path.append(_map_to_world(x))
+	return Path.new(world_path) # Likely don't store this
 
-	print("Path: ", self.path)
-
-
+# Grid to position
 func _map_to_world(cell: Vector2i) -> Vector2:
 	var cell_size = astargrid.cell_size
 	var x:float = cell.x*cell_size.x + cell_size.x/2
@@ -73,48 +75,29 @@ func has_bee_position_changed() -> bool:
 			return true
 	return false
 
-func move_towards(delta:float):
-	if self.path_index < self.path.size() and self.path[self.path_index] != null:
-		var end = _map_to_world(self.path[path_index]) # FIXME: Adding in end pos and trying to keep straight line travel
-		self.evil_bee.position = self.evil_bee.position.move_toward(Vector2(end.x, end.y), 15 * delta)
-		if self.evil_bee.position == _map_to_world(self.path[path_index]):
-			self.path_index += 1
+class Path:
+	var index: int
+	var path: Array[Vector2]
+	
+	func _init(path: Array[Vector2]) -> void:
+		self.index = 0
+		self.path = path
+	
+	func _to_string() -> String:
+		return str(self.path)
+	
+	func __bool() -> bool:
+		return self.path.is_empty()# FIXME: + or self.index >= self.path.size()?
+	
+	func is_path_active() -> bool:
+		return !self.path.is_empty() and self.index < self.path.size()
+	
+	func get_next_position(current_position: Vector2, scaled_delta: float) -> Vector2:
+		if is_path_active() and current_position == self.path.get(self.index):
+			self.index += 1
 
+		if !is_path_active():
+			#print("[WARN] Should not ask for position if the path isn't active")
+			return current_position
 
-#func _on_area_entered(area: Area2D) -> void:
-	#if (area.name.begins_with("Projectile")):
-		#var explode: CPUParticles2D = area.get_node("ExplodeEvilBee").duplicate()
-		#var end_pos = position
-		#get_parent().add_child(explode)
-		#explode.position = end_pos
-		#explode.emitting = true
-		#
-		#
-		#area.queue_free()
-		#queue_free()
-#
-#var bees: Array
-#var tilemap: TileMap
-#func refresh(bees: Array, tilemap: TileMap) -> void:
-	#self.bees = bees
-	#self.tilemap = tilemap
-	#var min_distance: float = 999999999.0
-	#var closest_bee = null
-	#for bee: Area2D in bees:
-		#var distance = abs(bee.position.x-$".".position.x) + abs(bee.position.y-$".".position.y)
-		#if distance < min_distance:
-			#min_distance = distance
-			#closest_bee = bee
-	#self.evil_bee = EvilBee.new(closest_bee, $".", tilemap)
-#
-#var recalculate_time = 4.0
-#var recalculate_timer = 0.0
-#
-#func _process(delta: float) -> void:
-	#recalculate_timer += delta
-	#if recalculate_timer >= recalculate_time:
-		#recalculate_timer = 0
-		#refresh(bees, tilemap)
-	#else:
-		#self.evil_bee.move_towards(delta)
-		
+		return current_position.move_toward(self.path.get(self.index), scaled_delta)

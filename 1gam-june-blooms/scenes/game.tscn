@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://b1gn3rf5nhmyy"]
+[gd_scene load_steps=8 format=3 uid="uid://b1gn3rf5nhmyy"]
 
 [ext_resource type="Script" uid="uid://cqjd8efriymko" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://dgs1go3vqpbh5" path="res://scenes/player.tscn" id="2_yqjtg"]
-[ext_resource type="PackedScene" uid="uid://c6hbgrsqrmy3o" path="res://scenes/bee.tscn" id="5_iywne"]
 [ext_resource type="PackedScene" uid="uid://dukslg0djii2x" path="res://scenes/plant.tscn" id="6_p57ef"]
 [ext_resource type="PackedScene" uid="uid://ch0rjimw0mcst" path="res://scenes/plant_spawn.tscn" id="7_u5sy4"]
 
@@ -158,14 +157,8 @@ position = Vector2(-184, 88)
 
 [node name="Bees" type="Node" parent="."]
 
-[node name="Bee2" parent="Bees" instance=ExtResource("5_iywne")]
-position = Vector2(-54, -42)
-
-[node name="Bee" parent="Bees" instance=ExtResource("5_iywne")]
-position = Vector2(143, 40)
-
 [node name="BeeSpawnOne" type="Marker2D" parent="Bees" groups=["bee_spawn"]]
-position = Vector2(0, -16)
+position = Vector2(96, -56)
 
 [node name="Plants" type="Node" parent="."]
 
