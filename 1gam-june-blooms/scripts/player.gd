@@ -27,6 +27,9 @@ class Player:
 	var gun_flash_right_sprite: AnimatedSprite2D
 	var gun_flash_left_sprite: AnimatedSprite2D
 	var amo = 10
+	var alive: bool = true
+	var death_time: float = 3.0
+	var death_timer: float = 0.0
 	
 	func _init(speed: float, jump_velocity: float, player: CharacterBody2D):
 		self.speed = speed
@@ -93,7 +96,11 @@ class Player:
 	func tick(on_floor: bool, delta: float):
 		_jump(on_floor, delta)
 		_move()
-
+	
+	func kill_player() -> void:
+		self.player.global_position = Vector2(200, 200)
+		self.alive = false
+		self.death_time = 0
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -112,10 +119,14 @@ func _physics_process(delta: float) -> void:
 	player.tick_animation(direction, is_on_floor())
 	player.tick(is_on_floor(), delta)
 	
-	# FIXME: Quick death
-	if self.position.y > 100:
-		get_tree().reload_current_scene()
-
+	## FIXME: Quick death
+	#if self.position.y > 100:
+		#get_tree().reload_current_scene()
+		
+	self.player.death_timer += delta
+	if self.player.death_timer >= self.player.death_time and !self.player.alive:
+		self.global_position = Vector2(-184.0, 88.99691)
+		self.player.alive = true
 	move_and_slide()
 
 # Methods for Game object

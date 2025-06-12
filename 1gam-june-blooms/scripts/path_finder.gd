@@ -53,7 +53,7 @@ func find_path(destination: Vector2i, origin: Vector2i) -> Path:
 		var start: Vector2i = _world_to_map(self.origin)
 		var end: Vector2i = _world_to_map(self.destination)
 		self.path = astargrid.get_id_path(start, end)
-		print("Grid Path: ", self.path)
+		#print("Grid Path: ", self.path)
 		for x: Vector2i in self.path:
 			world_path.append(_map_to_world(x))
 	return Path.new(world_path) # Likely don't store this

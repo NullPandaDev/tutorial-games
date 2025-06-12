@@ -22,12 +22,14 @@ class Game:
 		self.tree = tree
 		self.player = root.get_node("Player")
 	
+	
 	func _shoot():
 		print(self.player.player.amo)
 		if self.player.player.amo <= 0:
 			return
 
 		self.player.player.amo -= 1
+		tree.get_nodes_in_group("amo_label").get(0).text = "Amo: " + str(self.player.player.amo)
 		if player.get_direction() == 1:
 			var marker = self.player.get_node("ProjectileMarkerRight")
 			var projectile = PROJECTILE_SCENE.instantiate()
@@ -84,8 +86,16 @@ const evil_bee_spawn_cap = 8
 const PLANT_SPAWN_TIME = 1.0
 var plant_spawn_timer = 0.0
 
+func handle_player_death(delta: float) -> void:
+	print(self.game.player.position)
+	if self.game.player.position.y > 100:
+		self.game.player.player.kill_player()
+		#self.game.player.position = Vector2(-184.0, 88.99691)
+		
+
 func _process(delta: float) -> void:
 	game.process(delta)
+	handle_player_death(delta)
 	
 	evil_bee_spawn_timer += delta*(evil_bee_spawn_cap-get_tree().get_nodes_in_group("evil_bee").size())
 	if evil_bee_spawn_timer >= EVIL_BEE_SPAWN_TIME:
@@ -98,6 +108,7 @@ func _process(delta: float) -> void:
 			get_parent().add_child(eb)
 			eb.position = spawn_pos
 			eb.refresh(get_tree().get_nodes_in_group("bee"), $TileMap)
+			eb.name = "EvilBee" + str(Engine.get_process_frames())
 	
 	plant_spawn_timer += delta
 	if plant_spawn_timer >= PLANT_SPAWN_TIME:
@@ -111,7 +122,6 @@ func _process(delta: float) -> void:
 			spawn.add_child(ps)
 			plant_spawn_timer = 0.0
 			#_on_plant_grown()
-			print("SPAWNED PLANT")
 			for bee: Bee in get_tree().get_nodes_in_group("bee"):
 				bee.append_plant(ps)
 			ps.connect("plant_grown", Callable(self, "_on_plant_grown"))
@@ -134,8 +144,8 @@ func _ready() -> void:
 	var path_finder: PathFinder = PathFinder.new($TileMap)
 	
 	for i in range(3):
-		var new_bee = Bee.create(path_finder, [])
-		new_bee.global_position = get_tree().get_nodes_in_group("bee_spawn").get(0).global_position
+		var new_bee = Bee.create(path_finder, [], i)
+		new_bee.global_position = get_tree().get_nodes_in_group("bee_spawn").get(i).global_position
 		add_child(new_bee)
 		self.bees.append(new_bee)
 	

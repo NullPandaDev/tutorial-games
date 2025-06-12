@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1gn3rf5nhmyy"]
+[gd_scene load_steps=8 format=3 uid="uid://b1gn3rf5nhmyy"]
 
 [ext_resource type="Script" uid="uid://cqjd8efriymko" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://dgs1go3vqpbh5" path="res://scenes/player.tscn" id="2_yqjtg"]
+[ext_resource type="FontFile" uid="uid://c3ytusht20aoi" path="res://assets/fonts/PixelOperator8.ttf" id="5_iywne"]
 [ext_resource type="PackedScene" uid="uid://ch0rjimw0mcst" path="res://scenes/plant_spawn.tscn" id="7_u5sy4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yqjtg"]
@@ -159,6 +160,12 @@ position = Vector2(-184, 88)
 [node name="BeeSpawnOne" type="Marker2D" parent="Bees" groups=["bee_spawn"]]
 position = Vector2(96, -56)
 
+[node name="BeeSpawnOne2" type="Marker2D" parent="Bees" groups=["bee_spawn"]]
+position = Vector2(-152, -64)
+
+[node name="BeeSpawnOne3" type="Marker2D" parent="Bees" groups=["bee_spawn"]]
+position = Vector2(-168, 32)
+
 [node name="Plants" type="Node" parent="."]
 
 [node name="spawns" type="Node" parent="."]
@@ -172,11 +179,9 @@ position = Vector2(-187, -107)
 position = Vector2(182, 103)
 
 [node name="ebs3" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
-visible = false
 position = Vector2(187, -109)
 
 [node name="ebs4" type="Marker2D" parent="spawns/EvilBee" groups=["evil_bee_spawn"]]
-visible = false
 position = Vector2(-186, 89)
 
 [node name="Plants" type="Node" parent="spawns"]
@@ -207,3 +212,15 @@ position = Vector2(-8, -72)
 
 [node name="PlantSpawn13" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
 position = Vector2(48, -72)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer" groups=["amo_label"]]
+offset_left = 40.0
+offset_top = 32.0
+offset_right = 86.0
+offset_bottom = 55.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_iywne")
+theme_override_font_sizes/font_size = 8
+text = "Amo: 10"
