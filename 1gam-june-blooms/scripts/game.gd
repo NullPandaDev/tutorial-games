@@ -106,14 +106,40 @@ func _process(delta: float) -> void:
 			if spawn.get_node("Plant") == null:
 				spawns.append(spawn)
 		var spawn: Area2D = spawns[randi() % spawns.size()] if spawns.size() > 0 else null
-		if spawn != null:
-			var ps = PLANT_SCENE.instantiate()
+		if spawn != null and spawn.visible:
+			var ps: Plant = PLANT_SCENE.instantiate()
 			spawn.add_child(ps)
 			plant_spawn_timer = 0.0
-			_on_plant_grown()
+			#_on_plant_grown()
 			print("SPAWNED PLANT")
+			for bee: Bee in get_tree().get_nodes_in_group("bee"):
+				bee.append_plant(ps)
+			ps.connect("plant_grown", Callable(self, "_on_plant_grown"))
+# Managed some good progress where we were able to put the pathfinder on the bee and abstract
+# it away mostly
+# Had good luck chasing an existing plant. But now we are trying to get future plants
+# to update in the list of plants per bee. When a bee has no more plants to move towards
+# it should move on. My code isn't quite working.
+# There will probably be a bug with finding a plant then moving to the next
+# Also should improve code to allow better plant picking
+
+# Finally I would love to move this spawn code to the plant. THe check itself can be passed
+# a delta and easliy know if it's time to spawn? Is that true? Probably not.
+# THe spawn code can be moved as a factory mehtod
+
+# Will be a degress of figuring out in the next session
+			
 		
 func _ready() -> void:
+	var path_finder: PathFinder = PathFinder.new($TileMap)
+	
+	for i in range(3):
+		var new_bee = Bee.create(path_finder, [])
+		new_bee.global_position = get_tree().get_nodes_in_group("bee_spawn").get(0).global_position
+		add_child(new_bee)
+		self.bees.append(new_bee)
+	
+	
 	var bees = get_tree().get_nodes_in_group("bee")
 	for bee: Area2D in bees:
 		bee.connect("bee_died", Callable(self, "_on_bee_died"))
@@ -128,11 +154,7 @@ func _ready() -> void:
 	for plant: Area2D in plants:
 		plant.connect("plant_grown", Callable(self, "_on_plant_grown"))
 	
-	var path_finder: PathFinder = PathFinder.new($TileMap)
-	var new_bee = Bee.create(path_finder, plants)
-	new_bee.global_position = get_tree().get_nodes_in_group("bee_spawn").get(0).global_position
-	add_child(new_bee)
-	self.bees.append(new_bee)
+
 	#path_finder.find_path(plants.get(0).position, new_bee.position)
 	#assert(true, "FORCE FIAL. READ COMMENT")
 	
@@ -151,13 +173,22 @@ func _on_bee_died() -> void:
 	for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
 		evil_bee.refresh(bees, $TileMap)
 
-func _on_plant_grown() -> void:
-	await get_tree().process_frame # FIXME: This is a bit fucked
+#func _on_plant_grown() -> void:
+	#print("PLANT GROWN2")
 
+func _on_plant_grown(plant: Plant) -> void:
+	#print("PLANT GROWN1")
+	await get_tree().process_frame # FIXME: This is a bit fucked
+#
 	var plants = get_tree().get_nodes_in_group("plant")
-	#for bee: Area2D in get_tree().get_nodes_in_group("bee"): # FIXME: 2
-		#bee.refresh($TileMap, plants)
+	
+	for bee: Bee in get_tree().get_nodes_in_group("bee"):
+		bee.plants = []
+		for p: Plant in plants:
+			bee.plants.append(p)
+		if bee.plant == plant:
+			bee.plant = null
+	
 
 const EvilBeeScript = preload("res://scripts/evil_bee.gd")
-#class_name EvilBee
 var evil_bee: EvilBeeScript.EvilBee
