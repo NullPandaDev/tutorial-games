@@ -24,12 +24,11 @@ class Game:
 	
 	
 	func _shoot():
-		print(self.player.player.amo)
+		#print(self.player.player.amo)
 		if self.player.player.amo <= 0:
 			return
 
 		self.player.player.amo -= 1
-		tree.get_nodes_in_group("amo_label").get(0).text = "Amo: " + str(self.player.player.amo)
 		if player.get_direction() == 1:
 			var marker = self.player.get_node("ProjectileMarkerRight")
 			var projectile = PROJECTILE_SCENE.instantiate()
@@ -74,6 +73,7 @@ class Game:
 			self.shoot_timer = self.shoot_time
 			_shoot()
 		self.shoot_timer -= delta
+		tree.get_nodes_in_group("amo_label").get(0).text = "Amo: " + str(self.player.player.amo)
 		#_move_evil_bees(delta)
 
 
@@ -87,8 +87,8 @@ const PLANT_SPAWN_TIME = 1.0
 var plant_spawn_timer = 0.0
 
 func handle_player_death(delta: float) -> void:
-	print(self.game.player.position)
-	if self.game.player.position.y > 100:
+	#print(self.game.player.position)
+	if self.game.player.position.y > 100 and self.game.player.player.alive:
 		self.game.player.player.kill_player()
 		#self.game.player.position = Vector2(-184.0, 88.99691)
 		
@@ -182,6 +182,13 @@ func _on_bee_died() -> void:
 	var bees = get_tree().get_nodes_in_group("bee")
 	for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
 		evil_bee.refresh(bees, $TileMap)
+	
+	if bees.is_empty():
+		for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
+			evil_bee.queue_free()
+		get_tree().reload_current_scene()
+
+		
 
 #func _on_plant_grown() -> void:
 	#print("PLANT GROWN2")

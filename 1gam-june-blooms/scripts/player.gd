@@ -101,6 +101,7 @@ class Player:
 		self.player.global_position = Vector2(200, 200)
 		self.alive = false
 		self.death_time = 0
+		self.amo = int(self.amo/2)
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

@@ -120,3 +120,7 @@ func _process(delta: float) -> void:
 		#if self.evil_bee.has_bee_position_changed():
 		#else:
 			#self.evil_bee.move_towards(delta)
+
+
+func _on_body_entered(body: Node2D) -> void:
+	body.player.kill_player()

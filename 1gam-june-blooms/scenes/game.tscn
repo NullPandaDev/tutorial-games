@@ -213,6 +213,21 @@ position = Vector2(-8, -72)
 [node name="PlantSpawn13" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
 position = Vector2(48, -72)
 
+[node name="PlantSpawn14" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(-120, 88)
+
+[node name="PlantSpawn15" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(56, 56)
+
+[node name="PlantSpawn16" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(-168, -40)
+
+[node name="PlantSpawn17" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(72, 24)
+
+[node name="PlantSpawn18" parent="spawns/Plants" instance=ExtResource("7_u5sy4")]
+position = Vector2(24, -72)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer" groups=["amo_label"]]

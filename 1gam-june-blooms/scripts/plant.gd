@@ -28,13 +28,13 @@ func _process(delta: float) -> void:
 func _on_area_entered(area: Area2D) -> void:
 	#print(self, ",", area)
 	#print(area)
-	if area.name.begins_with("Bee"):
+	if area is Bee and area.plant == self:
 		self.bees_on_flower += 1
 	#print(self.bees_on_flower)
 
 
 func _on_area_exited(area: Area2D) -> void:
-	if area.name.begins_with("Bee"):
+	if area is Bee and area.plant == self:
 		self.bees_on_flower -= 1
 
 

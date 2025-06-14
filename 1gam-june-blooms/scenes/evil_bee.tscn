@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://be7h1r25p1t5o"]
+[gd_scene load_steps=9 format=3 uid="uid://be7h1r25p1t5o"]
 
 [ext_resource type="Script" uid="uid://bl1243xc52ceu" path="res://scripts/evil_bee.gd" id="1_gg04k"]
 [ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="1_jw8g1"]
@@ -28,6 +28,21 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_phrbw"]
 size = Vector2(11, 13)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_siu0v"]
+atlas = ExtResource("1_jw8g1")
+region = Rect2(51, 85, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_phrbw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_siu0v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="EvilBee" type="Area2D" groups=["evil_bee"]]
 z_index = 1
 script = ExtResource("1_gg04k")
@@ -35,7 +50,7 @@ script = ExtResource("1_gg04k")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_siu0v")
 autoplay = "default"
-frame_progress = 0.170543
+frame_progress = 0.0869653
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -0.5)
@@ -56,4 +71,11 @@ target_position = Vector2(0, -11)
 rotation = 4.71239
 target_position = Vector2(0, -11)
 
+[node name="OffscreenMarker" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(0, 13)
+scale = Vector2(0.21875, 0.21875)
+sprite_frames = SubResource("SpriteFrames_phrbw")
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

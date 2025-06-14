@@ -1,7 +1,12 @@
-[gd_scene load_steps=16 format=3 uid="uid://dukslg0djii2x"]
+[gd_scene load_steps=18 format=3 uid="uid://dukslg0djii2x"]
 
 [ext_resource type="Texture2D" uid="uid://dfdud28ma5vkn" path="res://assets/plants/pixil-frame-0.png" id="1_fi0kw"]
 [ext_resource type="Script" uid="uid://dopo7m1dc1do3" path="res://scripts/plant.gd" id="1_odjdt"]
+[ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="2_a88lo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68tkh"]
+atlas = ExtResource("2_a88lo")
+region = Rect2(68, 17, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_odjdt"]
 atlas = ExtResource("1_fi0kw")
@@ -35,13 +40,13 @@ region = Rect2(102, 0, 16, 16)
 atlas = ExtResource("1_fi0kw")
 region = Rect2(119, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_68tkh"]
-atlas = ExtResource("1_fi0kw")
-region = Rect2(136, 0, 16, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_cqtiq"]
 atlas = ExtResource("1_fi0kw")
 region = Rect2(153, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ls7ot"]
+atlas = ExtResource("2_a88lo")
+region = Rect2(68, 17, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kp45f"]
 atlas = ExtResource("1_fi0kw")
@@ -50,6 +55,9 @@ region = Rect2(34, 17, 16, 16)
 [sub_resource type="SpriteFrames" id="SpriteFrames_toh6u"]
 animations = [{
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68tkh")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_odjdt")
 }, {
@@ -73,9 +81,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2riao")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_68tkh")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cqtiq")
@@ -86,6 +91,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ls7ot")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_odjdt")
 }, {
 "duration": 1.0,
@@ -108,9 +116,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2riao")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_68tkh")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kp45f")
@@ -128,7 +133,7 @@ script = ExtResource("1_odjdt")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_toh6u")
-animation = &"YELLOW"
+animation = &"RED"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_odjdt")
