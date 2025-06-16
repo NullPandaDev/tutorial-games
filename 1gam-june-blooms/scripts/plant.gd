@@ -42,4 +42,9 @@ func _on_body_entered(body: Node2D) -> void:
 	if !is_in_group("plant") and body.name.begins_with("Player"):
 		body.player.power_up = $AnimatedSprite2D.animation
 		body.player.amo = 10
+		
+		#var pickup_sfx: AudioStreamPlayer2D = $Sounds/PickupSfx
+		#pickup_sfx.pitch_scale = randf_range(0.5,1.0)
+		#get_parent().add_child(pickup_sfx)
+		#pickup_sfx.play()
 		queue_free()

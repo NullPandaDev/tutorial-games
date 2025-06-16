@@ -92,6 +92,11 @@ class Player:
 			jump_buffer_timer = 0  # Consume the buffered jump
 			coyote_timer = 0       # Optional: prevent double jumps
 			
+			var jump_sfx: AudioStreamPlayer2D = player.get_node("Sounds").get_node("JumpAudio")
+			jump_sfx.pitch_scale = randf_range(0.5,1.0)
+			jump_sfx.volume_db = -10.0
+			jump_sfx.play()
+			
 	
 	func tick(on_floor: bool, delta: float):
 		_jump(on_floor, delta)

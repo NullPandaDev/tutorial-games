@@ -38,6 +38,10 @@ class Game:
 			root.get_parent().add_child(projectile)
 			projectile.get_node("AnimatedSprite2D").animation = player.player.power_up
 			
+			var shoot_sfx: AudioStreamPlayer2D = root.get_node("Sounds").get_node("ShootSfx")
+			shoot_sfx.pitch_scale = randf_range(0.5,1.0)
+			shoot_sfx.play()
+			
 			#if player.player.power_up == "RED":
 				#projectile.modulate =  Color(1, 0, 0)
 			#elif player.player.power_up == "YELLOW":
@@ -187,17 +191,26 @@ func _on_bee_died() -> void:
 	for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
 		evil_bee.refresh(bees, $TileMap)
 	
+	var die_sfx: AudioStreamPlayer2D = $Sounds/DieSfx
+	die_sfx.pitch_scale = randf_range(0.5,1.0)
+	die_sfx.play()
+	
 	if bees.is_empty():
 		for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
 			evil_bee.queue_free()
 		get_tree().reload_current_scene()
+
+
 var score = 0
 func _on_evil_bee_died() -> void:
 	await get_tree().process_frame # FIXME: This is a bit fucked
 	print("recv evil bee died singal")
 	score += 1
 	$CanvasLayer/Score.text = "Score: " + str(score)
-
+	
+	var hurt_sfx: AudioStreamPlayer2D = $Sounds/HurtSfx
+	hurt_sfx.pitch_scale = randf_range(0.5,1.0)
+	hurt_sfx.play()
 		
 
 #func _on_plant_grown() -> void:

@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://b1gn3rf5nhmyy"]
+[gd_scene load_steps=11 format=3 uid="uid://b1gn3rf5nhmyy"]
 
 [ext_resource type="Script" uid="uid://cqjd8efriymko" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://dgs1go3vqpbh5" path="res://scenes/player.tscn" id="2_yqjtg"]
 [ext_resource type="FontFile" uid="uid://c3ytusht20aoi" path="res://assets/fonts/PixelOperator8.ttf" id="5_iywne"]
+[ext_resource type="AudioStream" uid="uid://qebnjsscjv0o" path="res://assets/sounds/tap.wav" id="6_p57ef"]
+[ext_resource type="AudioStream" uid="uid://cpxroku25g2dv" path="res://assets/sounds/explosion.wav" id="7_gee14"]
 [ext_resource type="PackedScene" uid="uid://ch0rjimw0mcst" path="res://scenes/plant_spawn.tscn" id="7_u5sy4"]
+[ext_resource type="AudioStream" uid="uid://c7mw6wuk2lcaa" path="res://assets/sounds/hurt.wav" id="8_gee14"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yqjtg"]
 texture = ExtResource("1_uwrxv")
@@ -252,3 +255,14 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("5_iywne")
 theme_override_font_sizes/font_size = 8
 text = "Score: 0"
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="ShootSfx" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("6_p57ef")
+
+[node name="DieSfx" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("7_gee14")
+
+[node name="HurtSfx" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("8_gee14")

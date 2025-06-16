@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://dukslg0djii2x"]
+[gd_scene load_steps=19 format=3 uid="uid://dukslg0djii2x"]
 
 [ext_resource type="Texture2D" uid="uid://dfdud28ma5vkn" path="res://assets/plants/pixil-frame-0.png" id="1_fi0kw"]
 [ext_resource type="Script" uid="uid://dopo7m1dc1do3" path="res://scripts/plant.gd" id="1_odjdt"]
 [ext_resource type="Texture2D" uid="uid://e1rtv6ebremi" path="res://assets/Tilemap/tilemap.png" id="2_a88lo"]
+[ext_resource type="AudioStream" uid="uid://738iv47g88kp" path="res://assets/sounds/coin.wav" id="4_m5w0e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_68tkh"]
 atlas = ExtResource("2_a88lo")
@@ -137,6 +138,11 @@ animation = &"RED"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_odjdt")
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="PickupSfx" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("4_m5w0e")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
