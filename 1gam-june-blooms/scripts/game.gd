@@ -77,7 +77,8 @@ class Game:
 		#_move_evil_bees(delta)
 
 
-const EVIL_BEE_SPAWN_TIME = 16.0
+var hardness = -0.4
+var evil_bee_spawn_time = 16.0-hardness*8
 var evil_bee_spawn_timer = 0.0
 var EVIL_BEE_SCENE := preload("res://scenes/evil_bee.tscn")
 var PLANT_SCENE := preload("res://scenes/plant.tscn")
@@ -98,7 +99,7 @@ func _process(delta: float) -> void:
 	handle_player_death(delta)
 	
 	evil_bee_spawn_timer += delta*(evil_bee_spawn_cap-get_tree().get_nodes_in_group("evil_bee").size())
-	if evil_bee_spawn_timer >= EVIL_BEE_SPAWN_TIME:
+	if evil_bee_spawn_timer >= evil_bee_spawn_time:
 		evil_bee_spawn_timer = 0
 		var spawns = get_tree().get_nodes_in_group("evil_bee_spawn")
 		var spawn: Marker2D = spawns[randi() % spawns.size()]
@@ -109,6 +110,7 @@ func _process(delta: float) -> void:
 			eb.position = spawn_pos
 			eb.refresh(get_tree().get_nodes_in_group("bee"), $TileMap)
 			eb.name = "EvilBee" + str(Engine.get_process_frames())
+			eb.connect("evil_bee_died", Callable(self, "_on_evil_bee_died"))
 	
 	plant_spawn_timer += delta
 	if plant_spawn_timer >= PLANT_SPAWN_TIME:
@@ -125,6 +127,8 @@ func _process(delta: float) -> void:
 			for bee: Bee in get_tree().get_nodes_in_group("bee"):
 				bee.append_plant(ps)
 			ps.connect("plant_grown", Callable(self, "_on_plant_grown"))
+			evil_bee_spawn_time = max(evil_bee_spawn_time+hardness, 8.0)
+			print("new spawn time: ", evil_bee_spawn_time)
 # Managed some good progress where we were able to put the pathfinder on the bee and abstract
 # it away mostly
 # Had good luck chasing an existing plant. But now we are trying to get future plants
@@ -143,7 +147,7 @@ func _process(delta: float) -> void:
 func _ready() -> void:
 	var path_finder: PathFinder = PathFinder.new($TileMap)
 	
-	for i in range(3):
+	for i in range(4):
 		var new_bee = Bee.create(path_finder, [], i)
 		new_bee.global_position = get_tree().get_nodes_in_group("bee_spawn").get(i).global_position
 		add_child(new_bee)
@@ -187,6 +191,12 @@ func _on_bee_died() -> void:
 		for evil_bee: Area2D in get_tree().get_nodes_in_group("evil_bee"):
 			evil_bee.queue_free()
 		get_tree().reload_current_scene()
+var score = 0
+func _on_evil_bee_died() -> void:
+	await get_tree().process_frame # FIXME: This is a bit fucked
+	print("recv evil bee died singal")
+	score += 1
+	$CanvasLayer/Score.text = "Score: " + str(score)
 
 		
 

@@ -3,6 +3,8 @@ extends Area2D
 var evil_bee: EvilBee
 #var astargrid: AStarGrid2D
 
+signal evil_bee_died
+
 class EvilBee:
 	var astargrid: AStarGrid2D
 	var path: Array[Vector2i]
@@ -86,7 +88,7 @@ func _on_area_entered(area: Area2D) -> void:
 		explode.position = end_pos
 		explode.emitting = true
 		
-		
+		emit_signal("evil_bee_died")
 		area.queue_free()
 		queue_free()
 
