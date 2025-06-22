@@ -47,4 +47,5 @@ func _on_body_entered(body: Node2D) -> void:
 		#pickup_sfx.pitch_scale = randf_range(0.5,1.0)
 		#get_parent().add_child(pickup_sfx)
 		#pickup_sfx.play()
+		SoundPlayer.play_coin_sound()
 		queue_free()
